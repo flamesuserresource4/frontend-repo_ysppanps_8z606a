@@ -1,15 +1,24 @@
+import { useState, useCallback } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
-import { ArrowRight, Check, Shield, Zap, Users, Calendar, GraduationCap, BookOpen } from 'lucide-react'
+import { ArrowRight, Users, Calendar, GraduationCap } from 'lucide-react'
 import LandingNavbar from '../components/landing/LandingNavbar'
 import LandingHero from '../components/landing/LandingHero'
 import LandingFeatures from '../components/landing/LandingFeatures'
 import LandingPricing from '../components/landing/LandingPricing'
 import LandingFooter from '../components/landing/LandingFooter'
+import Logos from '../components/landing/Logos'
+import Testimonials from '../components/landing/Testimonials'
+import VideoDemo from '../components/landing/VideoDemo'
+import Newsletter from '../components/landing/Newsletter'
+import ABTestToggle from '../components/landing/ABTestToggle'
 
 export default function Landing() {
   const { scrollYProgress } = useScroll()
   const opacity = useTransform(scrollYProgress, [0, 0.2, 1], [1, 1, 0.9])
   const y = useTransform(scrollYProgress, [0, 1], [0, 40])
+  const [variant, setVariant] = useState('A')
+
+  const handleVariant = useCallback((v) => setVariant(v), [])
 
   return (
     <div className="min-h-screen bg-slate-950 text-white overflow-x-hidden">
@@ -22,8 +31,10 @@ export default function Landing() {
       <LandingNavbar />
 
       <motion.div style={{ opacity, y }}>
-        <LandingHero />
+        <LandingHero ctaStyle={variant === 'A' ? 'indigo' : 'emerald'} headlineVariant={variant} />
       </motion.div>
+
+      <Logos />
 
       <LandingFeatures />
 
@@ -56,14 +67,20 @@ export default function Landing() {
         </div>
       </section>
 
+      <VideoDemo />
+
+      <Testimonials />
+
       <LandingPricing />
+
+      <Newsletter />
 
       <section className="py-20">
         <div className="max-w-5xl mx-auto px-4 text-center">
           <h3 className="text-2xl md:text-3xl font-semibold">Ready to simplify your teaching workflow?</h3>
           <p className="mt-3 text-slate-300">Start free, set up in minutes, and upgrade whenever you like.</p>
           <div className="mt-6 flex items-center justify-center gap-3">
-            <a href="/app" className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-900/30">
+            <a href="/app" className={`inline-flex items-center gap-2 px-5 py-3 rounded-xl text-white shadow-lg shadow-indigo-900/30 ${variant==='A' ? 'bg-indigo-600 hover:bg-indigo-500' : 'bg-emerald-600 hover:bg-emerald-500'}`}>
               Get started <ArrowRight size={18} />
             </a>
             <a href="#pricing" className="inline-flex items-center gap-2 px-5 py-3 rounded-xl border border-white/10 hover:bg-white/5 text-white">
@@ -74,6 +91,8 @@ export default function Landing() {
       </section>
 
       <LandingFooter />
+
+      <ABTestToggle onVariant={handleVariant} />
     </div>
   )
 }

@@ -1,7 +1,12 @@
 import { motion } from 'framer-motion'
 import { ArrowRight, Sparkles } from 'lucide-react'
 
-export default function LandingHero() {
+export default function LandingHero({ ctaStyle = 'indigo', headlineVariant = 'A' }) {
+  const ctaClasses = ctaStyle === 'indigo' ? 'bg-indigo-600 hover:bg-indigo-500' : 'bg-emerald-600 hover:bg-emerald-500'
+  const headline = headlineVariant === 'A'
+    ? 'Run your classroom like a modern product'
+    : 'All your teaching in one, beautifully simple workspace'
+
   return (
     <section className="relative overflow-hidden">
       <div className="max-w-6xl mx-auto px-4 pt-20 pb-16 grid md:grid-cols-2 gap-10 items-center">
@@ -10,13 +15,13 @@ export default function LandingHero() {
             <Sparkles size={14} /> New: auto-grade insights
           </div>
           <h1 className="mt-4 text-4xl md:text-6xl font-extrabold tracking-tight leading-tight">
-            Run your classroom like a modern product
+            {headline}
           </h1>
           <p className="mt-4 text-slate-300 text-lg">
             TeachEase centralizes students, subjects, lectures, exams, and grades in one place — so you can focus on teaching.
           </p>
           <div className="mt-6 flex items-center gap-3">
-            <a href="/app" className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-900/30">
+            <a href="/app" className={`inline-flex items-center gap-2 px-5 py-3 rounded-xl text-white shadow-lg shadow-indigo-900/30 ${ctaClasses}`}>
               Launch app <ArrowRight size={18} />
             </a>
             <a href="#pricing" className="px-5 py-3 rounded-xl border border-white/10 hover:bg-white/5 text-white">See pricing</a>
